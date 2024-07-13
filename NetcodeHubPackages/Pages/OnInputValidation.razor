@@ -1,0 +1,104 @@
+﻿@page "/oninputvalidation"
+@using System.ComponentModel.DataAnnotations
+@using NetcodeHub.Packages.Components.Validations.OnInput
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Component Description</h2>
+        <p>This Blazor component demonstrates form validation using different form input elements and validation techniques. The component is divided into three main sections: <strong>Default Blazor Components</strong>, <strong>Floating Components</strong>, and <strong>Unfloating Components</strong>. Each section showcases a different approach to form inputs and validation within an <code>EditForm</code>.</p>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <p>The first section utilizes standard Blazor components such as <code>InputText</code>, <code>InputNumber</code>, and <code>InputTextArea</code> with built-in validation.</p>
+                <h4 style="font-family:'Comic Sans MS'" class="text-success">Default Blazor Components</h4>
+                <EditForm Model="ProductModel" OnValidSubmit="SaveProduct">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="mt-3">
+                        <label class="form-label">Name</label>
+                        <InputText @bind-Value="ProductModel.Name" class="form-control" />
+                        <ValidationMessage For="() => ProductModel.Name" />
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Quantity</label>
+                        <InputNumber @bind-Value="ProductModel.Quantity" class="form-control" />
+                        <ValidationMessage For="() => ProductModel.Quantity" />
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Description</label>
+                        <InputTextArea @bind-Value="ProductModel.Description" class="form-control" />
+                        <ValidationMessage For="() => ProductModel.Description" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3 mb-5">Save</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <p>The second section uses custom floating components (<code>FloatingText</code>, <code>FloatingNumber</code>, <code>FloatingTextArea</code>) for a more dynamic user interface.</p>
+        <h4 style="font-family:'Comic Sans MS'" class="text-primary"> Floating Components</h4>
+        <EditForm Model="ProductModel2" OnValidSubmit="SaveProduct">
+            <DataAnnotationsValidator />
+            <FloatingText @bind-Value="ProductModel2.Name" class="form-control" Label="Name" />
+            <ValidationMessage For="() => ProductModel2.Name" />
+            <FloatingNumber @bind-Value="ProductModel2.Quantity" class="form-control" Label="Quantity" />
+            <ValidationMessage For="() => ProductModel2.Quantity" />
+            <FloatingTextArea @bind-Value="ProductModel2.Description" class="form-control" Label="Description" />
+            <ValidationMessage For="() => ProductModel2.Description" />
+            <button type="submit" class="btn btn-primary mt-3 mb-5">Save</button>
+        </EditForm>
+    </div>
+    <div class="col-md-4">
+        <p>The third section uses custom unfloating components (<code>Text</code>, <code>Number</code>, <code>TextArea</code>) to demonstrate a different layout style.</p>
+        <h4 style="font-family:'Comic Sans MS'" class="text-info">Unfloating Components</h4>
+        <EditForm Model="ProductModel3" OnValidSubmit="SaveProduct">
+            <DataAnnotationsValidator />
+            <div class="mt-3">
+                <label class="form-label">Name</label>
+                <Text @bind-Value="ProductModel3.Name" class="form-control" />
+                <ValidationMessage For="() => ProductModel3.Name" />
+            </div>
+            <div class="mt-3">
+                <label class="form-label">Quantity</label>
+                <Number @bind-Value="ProductModel3.Quantity" class="form-control" />
+                <ValidationMessage For="() => ProductModel3.Quantity" />
+            </div>
+            <div class="mt-3">
+                <label class="form-label">Description</label>
+                <TextArea @bind-Value="ProductModel3.Description" class="form-control" />
+                <ValidationMessage For="() => ProductModel3.Description" />
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Save</button>
+        </EditForm>
+    </div>
+    <p>This component provides a comprehensive demonstration of various form input and validation techniques in Blazor, showcasing the flexibility and power of Blazor's form handling capabilities.</p>
+
+</div>
+
+
+@code {
+    Product ProductModel = new();
+    Product ProductModel2 = new();
+    Product ProductModel3 = new();
+
+    void SaveProduct()
+    {
+
+    }
+
+
+
+    public class Product
+    {
+        public int Id { get; set; }
+        [Required, MinLength(5), MaxLength(10)]
+        public string? Name { get; set; }
+        [Required, Range(1, 10)]
+        public int Quantity { get; set; }
+        [Required, MinLength(5), MaxLength(10)]
+        public string? Description { get; set; }
+    }
+}

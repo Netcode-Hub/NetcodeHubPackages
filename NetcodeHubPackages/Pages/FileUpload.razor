@@ -1,0 +1,51 @@
+﻿ @page "/fileupload"
+@*@using NetcodeHub.Packages.Components.FileUpload
+@using NetcodeHub.Packages.Components.Validations.OnInput
+<h3>FileUpload</h3>
+<FloatingTextArea DisplayName="Base64 Image" class="form-control h-100"  @bind-Value="Base64String"/> 
+ <NetcodeHubFileUpload @ref="FileUploadComponent" 
+                                Notify="RetrieveContent1" 
+                                Multiple=false  
+                                RequiredExtensions="RequiredEx"
+                                ShowDisplay ="false"/>
+          <h1>@Errors</h1>
+
+@code {
+    string? Errors;
+    string Base64String = string.Empty;
+    List<string> RequiredEx = [".jpg", ".png", ".jpeg", ".gif"];
+
+    NetcodeHubFileUpload? FileUploadComponent;
+
+    void RetrieveContent(FileModel incomingFiles)
+    {
+        if (incomingFiles is not null)
+        {
+            foreach (var item in incomingFiles.IBrowserFiles!)
+            {
+                // This is for single.
+                var getFileNameAndBase64String = incomingFiles.BaseFiles!.FirstOrDefault(_ => _.Key.Equals(item.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (getFileNameAndBase64String.Key != null)
+                    Base64String = getFileNameAndBase64String.Value;
+            }
+        }
+        Errors = FileUploadComponent!.GetErrors();
+    }
+
+    // Get actual file
+    void RetrieveContent1(FileModel incomingFiles)
+    {
+        if (incomingFiles is not null)
+        {
+            foreach (var item in incomingFiles.IBrowserFiles!)
+            {
+                // This is for single.
+                var orignalFile = item;
+            }
+        }
+        Errors = FileUploadComponent!.GetErrors();
+    }
+}
+
+ *@
