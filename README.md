@@ -52,7 +52,7 @@
     To get started, clone the repository and navigate to the package you are interested in. Follow the provided documentation to integrate the package into your project.
 </p>
 <pre>
-<code>git clone https://github.com/NetcodeHub/NetcodeHubPackages.git</code>
+<code>git clone https://github.com/Netcode-Hub/NetcodeHubPackages.git</code>
  </pre>
 <p>
     We are constantly updating and adding new features to our packages. Stay tuned for the latest updates and enhancements!
