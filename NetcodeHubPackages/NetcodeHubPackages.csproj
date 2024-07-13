@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="NetcodeHub.Packages.Components.FileUpload" Version="1.0.5" />
+	  <PackageReference Include="NetcodeHub.Packages.Components.Modal" Version="1.0.1" />
 	  <PackageReference Include="NetcodeHub.Packages.Components.Toast" Version="1.0.4" />
 	  <PackageReference Include="NetcodeHub.Packages.Components.Validations" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6" />

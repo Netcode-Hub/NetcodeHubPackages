@@ -1,0 +1,97 @@
+﻿@page "/toast"
+@using NetcodeHub.Packages.Components.Toast
+
+<h2>Toast Component Description</h2>
+<p>This Blazor component demonstrates the usage of the <code>NetcodeHubToast</code> component from the <code>NetcodeHub.Packages.Components.Toast</code> library. It showcases how to display various types of toast notifications with different positions, icons, and durations.</p>
+
+<h3>Toast Component</h3>
+<p>The component includes a <code>NetcodeHubToast</code> element to handle toast notifications and a button to trigger these toasts.</p>
+
+<h3>Code-Behind</h3>
+<p>In the code-behind section, we define the logic for displaying the toast notifications. The <code>ShowToasts</code> method triggers different types of toast messages (danger, success, info) using the <code>NetcodeHubToast</code> component.</p>
+
+<h2>Toast Notification Descriptions</h2>
+
+<h3>Show Danger Toast</h3>
+<p>This line triggers a "danger" toast notification using the <code>NetcodeHubToast</code> component. A "danger" toast typically indicates an error or a critical issue that needs the user's attention. The toast will display with a title and a message specified in the parameters.</p>
+<pre><code>await ToastComponent!.ShowDangerToast("Title", "Message");</code></pre>
+<ul>
+    <li><strong>Title</strong>: The header of the toast notification.</li>
+    <li><strong>Message</strong>: The body of the toast notification detailing the critical information.</li>
+</ul>
+
+<h3>Show Success Toast</h3>
+<p>This line triggers a "success" toast notification. A "success" toast usually indicates that an operation has completed successfully. Like the "danger" toast, it will display a title and a message.</p>
+<pre><code>await ToastComponent!.ShowSuccessToast("Title", "Message");</code></pre>
+<ul>
+    <li><strong>Title</strong>: The header of the toast notification, usually indicating success.</li>
+    <li><strong>Message</strong>: The body of the toast notification detailing the successful operation.</li>
+</ul>
+
+<h3>Show Error Toast </h3>
+<p>This line again triggers another "error" toast notification. Similar to the previous one, it indicates a critical issue with the same title and message parameters.</p>
+<pre><code>await ToastComponent!.ShowErrorToast("Title", "Message");</code></pre>
+<ul>
+    <li><strong>Title</strong>: The header of the toast notification.</li>
+    <li><strong>Message</strong>: The body of the toast notification detailing the error information.</li>
+</ul>
+
+<h3>Show Info Toast</h3>
+<p>This line triggers an "info" toast notification. An "info" toast is typically used to provide informational messages to the user that are not necessarily critical or indicative of success or failure. It also displays a title and a message.</p>
+<pre><code>await ToastComponent!.ShowInfoToast("Title", "Message");</code></pre>
+<ul>
+    <li><strong>Title</strong>: The header of the toast notification, usually indicating that it is informational.</li>
+    <li><strong>Message</strong>: The body of the toast notification detailing the informational message.</li>
+</ul>
+
+
+<NetcodeHubToast @ref="Toast"
+                 Position="@ToastPosition.Bottom()"
+                 IconClass="bi bi-check"
+                 Persist="true"
+                 Duration=4000 />
+
+<div class="row">
+    <div class="col-auto">
+        <button class="btn btn-danger"
+                @onclick="ShowDangerToast">
+            Show Danger Toast
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-info"
+                @onclick="ShowInfoToast">
+            Show Info Toast
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-success"
+                @onclick="ShowSuccessToast">
+            Show success Toast
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-warning"
+                @onclick="ShowErrorToast">
+            Show Error Toast
+        </button>
+    </div>
+</div>
+
+<br />
+<p>This component demonstrates a practical implementation of toast notifications in Blazor, utilizing the <code>NetcodeHubToast</code> component for efficient display of various types of toasts with customizable positions, icons, and durations.</p>
+
+@code {
+    NetcodeHubToast? Toast;
+    async Task ShowDangerToast() =>
+                          await Toast!.ShowDangerToast("Title", "Message");
+
+    async Task ShowInfoToast() =>
+                await Toast!.ShowInfoToast("Title", "Message");
+
+    async Task ShowSuccessToast() =>
+                await Toast!.ShowSuccessToast("Title", "Message");
+
+    async Task ShowErrorToast() =>
+                await Toast!.ShowErrorToast("Title", "Message");
+}

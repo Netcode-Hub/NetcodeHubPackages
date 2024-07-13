@@ -1,0 +1,149 @@
+﻿@page "/modal"
+@using NetcodeHub.Packages.Components.Modal
+<h2 class="text-primary" style="font-family:'Comic Sans MS'">Confirmation Dialog Component</h2>
+<p>This Blazor component provides a customizable confirmation dialog. It allows users to confirm an action or dismiss the dialog with a "Close" button. The dialog can be styled with custom CSS and Bootstrap classes, and displays a specific instruction message.</p>
+<ul>
+    <li><strong>CustomStyle</strong>: An optional parameter to apply custom CSS styles to the dialog.</li>
+    <li><strong>BootstrapClass</strong>: An optional parameter to apply Bootstrap classes to the dialog. Default is <code>&quot;border-danger&quot;</code>.</li>
+    <li><strong>Instruction</strong>: A string parameter that specifies the instruction message displayed in the dialog.</li>
+    <li><strong>Action</strong>: An <code>EventCallback</code> that is invoked when the user confirms the action by clicking the "Confirm" button.</li>
+</ul>
+
+<h3>Methods</h3>
+<ul>
+    <li><strong>Show()</strong>: Displays the dialog by invoking the JavaScript function <code>showDialog</code>.</li>
+    <li><strong>Confirmed()</strong>: Invoked when the user clicks the "Confirm" button. It calls the <code>Action</code> callback and then closes the dialog by invoking the <code>Close()</code> method.</li>
+    <li><strong>Close()</strong>: Closes the dialog by invoking the JavaScript function <code>closeDialog</code>.</li>
+</ul>
+
+<h3>JavaScript Integration</h3>
+<p>To fully implement this component, you need to define the JavaScript functions <code>show dialog</code> and <code>close dialog</code> to show and close the dialog, respectively. Here’s an example of what those functions might look like:</p>
+<pre><code>&lt;script&gt;
+function showDialog() {
+    document.getElementById('cD').showModal();
+}
+
+function closeDialog() {
+    document.getElementById('cD').close();
+}
+&lt;/script&gt;</code></pre>
+
+<button class="btn btn-info mt-2" @onclick="Open">Show Confirmation</button>
+
+<NetcodeHubConfirmation @ref="confirmation"
+                        ConfirmationContent="@Instruction"
+                        ConfirmationHeader="Confirmation"
+                        Action="Handle"
+                        BootstrapClass="border-success"
+                        CustomStyle="width:300px;" />
+
+<p class="m-2">This component can be used to prompt the user with a confirmation dialog before proceeding with an action, enhancing the user experience by ensuring that critical actions are intentional and confirmed.</p>
+
+<h2 style="font-family:'Comic Sans MS'" class="text-success mt-5">Modal Component Description</h2>
+<p>This Blazor component represents a customizable modal dialog. It allows users to define the content and buttons within the dialog, and control its visibility through parameters and events.</p>
+<h3>Component Description</h3>
+<ul>
+    <li><strong>ContentTemplate</strong>: A <code>RenderFragment</code> parameter that allows the user to define the content of the dialog.</li>
+    <li><strong>ButtonTemplate</strong>: A <code>RenderFragment</code> parameter that allows the user to define the buttons within the dialog.</li>
+    <li><strong>Open</strong>: A boolean parameter that determines whether the dialog is open or closed.</li>
+    <li><strong>BootstrapClass</strong>: An optional parameter to apply Bootstrap classes to the dialog for styling.</li>
+    <li><strong>CustomStyle</strong>: An optional parameter to apply custom CSS styles to the dialog.</li>
+    <li><strong>OpenChanged</strong>: An <code>EventCallback&lt;bool&gt;</code> that is invoked when the <code>Open</code> parameter changes.</li>
+    <li><strong>Actions</strong>: An <code>EventCallback&lt;string&gt;</code> that is invoked with a string parameter when actions are performed within the dialog.</li>
+</ul>
+
+<h3>Lifecycle Methods</h3>
+<ul>
+    <li><strong>OnAfterRenderAsync</strong>: This method is overridden to perform actions after the component has been rendered. It initializes the dialog events on the first render, and then shows or closes the dialog based on the <code>Open</code> parameter.</li>
+</ul>
+
+<h3>JavaScript Invokable Methods</h3>
+<ul>
+    <li><strong>MA</strong>: A JavaScript-invokable method that handles actions performed within the dialog. If the dialog is open, it sets the <code>Open</code> parameter to <code>false</code> and invokes the <code>OpenChanged</code> callback. It also invokes the <code>Actions</code> callback with the provided return value.</li>
+</ul>
+
+<h3>JavaScript Integration</h3>
+<p>To fully implement this component, you need to define the JavaScript functions <code>bM</code>, <code>bOM</code>, and <code>bCM</code> to bind the modal, open the modal, and close the modal, respectively. Here’s an example of what those functions might look like:</p>
+<pre><code>&lt;script&gt;
+function bM(element, dotNetHelper) {
+    element.addEventListener('close', () => {
+        dotNetHelper.invokeMethodAsync('MA', 'closed');
+    });
+}
+
+function bOM(element) {
+    element.showModal();
+}
+
+function bCM(element) {
+    element.close();
+}
+&lt;/script&gt;</code></pre>
+
+<button class="btn btn-success mt-3" @onclick="OpenModal">Open modal</button>
+<br />
+<NetcodeHubModal @bind-Open="IsOpen"
+                 Actions="ButtonActions"
+                 BootstrapClass="border-success rounded p-2 ml-2 mr-2"
+                 CustomStyle="min-width:300px; max-width:500px;">
+
+    <ContentTemplate>
+        <div class="card ">
+            <div class="card-header">Modal Header</div>
+            <div class="card-body">
+                <p class="text-muted">
+                    The component was built using modal dialog. We are manipulating it using CSS and JS,
+                    This element provides what we want to display a modal and get a return value of type string.
+                </p>
+            </div>
+        </div>
+    </ContentTemplate>
+    <ButtonTemplate>
+        <div class="card border-0">
+            <div class="card-body">
+                <div class="d-flex justify-content-center align-content-center">
+                    <button class="btn btn-danger" value="cancel">Cancel</button>
+                    <button class="btn btn-success" value="save" style="margin-left:10px">Save</button>
+                </div>
+            </div>
+        </div>
+    </ButtonTemplate>
+</NetcodeHubModal>
+<br />
+<p>This component provides a flexible and customizable modal dialog for Blazor applications, allowing developers to define both the content and buttons within the dialog, and control its visibility and actions through parameters and events.</p>
+
+@code
+{
+    // NetcodeHub Confirmation Modal Component
+    NetcodeHubConfirmation confirmation;
+    public bool Confirm { get; set; }
+    string Instruction = "Are you sure you wanna do this?";
+    async Task Handle()
+    {
+        Confirm = true;
+        await Close();
+    }
+    async Task Open() => await confirmation.OpenConfirmation();
+    async Task Close() => await confirmation!.CloseConfirmation();
+
+
+    // NetcodeHub Modal Component
+    public bool IsOpen { get; set; }
+    void OpenModal() => IsOpen = true;
+    void ButtonActions(string action)
+    {
+        if (action == "save")
+        {
+
+            // do something
+            OpenModal();
+        }
+
+        else if (action == "cancel")
+        {
+            // default will close the modal
+            // you can also do something
+        }
+    }
+}
+

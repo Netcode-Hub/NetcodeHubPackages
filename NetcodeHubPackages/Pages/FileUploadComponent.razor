@@ -1,0 +1,57 @@
+﻿ @page "/fileupload"
+@using NetcodeHub.Packages.Components.FileUpload
+@using NetcodeHub.Packages.Components.Validations.OnInput
+
+<h2>File Upload Component Description</h2>
+<p>This Blazor component demonstrates the usage of the <code>NetcodeHubFileUpload</code> component from the <code>NetcodeHub.Packages.Components.FileUpload</code> library. It showcases how to handle file uploads and display base64-encoded images, along with error handling.</p>
+<FloatingTextArea DisplayName="Base64 Image" class="form-control h-100" @bind-Value="Base64String" />
+<NetcodeHubFileUpload @ref="FileUpload"
+                      Notify="RetrieveBase64String"
+                      Multiple=false
+                      RequiredExtensions="RequiredEx"
+                      ShowDisplay="false" />
+<h1>@Errors</h1>
+<p>This component demonstrates a practical implementation of file uploads in Blazor, utilizing the <code>NetcodeHubFileUpload</code> component for efficient handling and display of uploaded files and errors.</p>
+
+
+
+
+
+@code {
+    string? Errors;
+    string Base64String = string.Empty;
+    List<string> RequiredEx = [".jpg", ".png", ".jpeg", ".gif"];
+
+    NetcodeHubFileUpload? FileUpload;
+
+    void RetrieveBase64String(FileModel incomingFiles)
+    {
+        if (incomingFiles is not null)
+        {
+            foreach (var item in incomingFiles.IBrowserFiles!)
+            {
+                // This is for single.
+                var getFileNameAndBase64String = incomingFiles.BaseFiles!.FirstOrDefault(_ => _.Key.Equals(item.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (getFileNameAndBase64String.Key != null)
+                    Base64String = getFileNameAndBase64String.Value;
+            }
+        }
+        Errors = FileUpload!.GetErrors();
+    }
+
+    // Get actual file
+    void RetrieveFiles(FileModel incomingFiles)
+    {
+        if (incomingFiles is not null)
+        {
+            foreach (var item in incomingFiles.IBrowserFiles!)
+            {
+                // This is for single.
+                var orignalFile = item;
+            }
+        }
+        Errors = FileUpload!.GetErrors();
+    }
+}
+
